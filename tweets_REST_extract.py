@@ -7,7 +7,6 @@ from twitter import Twitter,OAuth, TwitterStream, TwitterHTTPError
 
 tweet_num = 1000  # Number of tweets that need to be extracted * by 100
 
-add_for_test = "im adding this as a test for git"
 ######## API URL UPDATE ############
 data = json.load(urllib3.urlopen('http://127.0.0.1:6000/'))  #Insert Topic after slash at the end of url
 
@@ -24,12 +23,12 @@ exec('config.py',config)
 
 ########  TWITTER API OBJECT CREATION #########
 
-twitter = Twitter(auth=OAuth(config["access_key"],config['access_secr'],config['consumer_key'],config['consumer_secr']) )
+twitter = Twitter(auth=OAuth(config["access_key"],config['access_secret'],config['consumer_key'],config['consumer_secret']) )
 
 prod = KafkaProducer(serialize_vals=lamda v:json.dumps(v).encode('utf-8')) #Producer for writing json messages to kafka
 
 
-file = open('C:\Users\Joe Malinao\Desktop\Projects\TweetSent','w')
+file = open('C:\Users\techm\Projects\Twitter_Projects\Tweet_Extract','w')
 i = 0
 iterator = twitter.search.tweets(q=topicName, result_type='recent',lang='en',count = 100)
 Nmin = float('-inf')
@@ -41,9 +40,7 @@ for i in range(tweet_num):
     for tweet in iterator['statuses']:
         count +=1 
         jsontweet = json.loads(tweet)
-
         Id_tweet = tweet['id']
-
         print(tweet['id'])
         if Id_tweet < Nmax:
             Id_min = Id_tweet
@@ -56,7 +53,6 @@ for i in range(tweet_num):
     file.write('\n')
 
 ### Minimum ID ##
-
     i +=1 
     print(count)
     iterator = twitter.search.tweets(q = topicName,result_type='recent',lang='en',count=100,Id_max =Id_min)

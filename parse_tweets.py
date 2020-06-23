@@ -11,7 +11,7 @@ from textauger import textfeatures
 
 data_tweets = []
 
-with open('#put tweet_file file path here') as json_data:
+with open('# add tweets extract file path here') as json_data:
     data = json.loads(json_data)
     if len(d) > 1:
         for each in range(len(d)):
@@ -43,8 +43,7 @@ tweets['text'] = [v.replace(r'','',v) for v in tweets.text.values.tolist()]
 
 tweets['text_clean'] = preprocessing.clean_text(text=tweets.text_clean.values,remove_short_tokens_flag=False,lemmatize_flag=True)
 
-#tweets['sentiment_score'] = [textfeatures.score_sentiment(v)['compound'] for v in tweets.text_clean.values.tolist()]
-
+tweets['sentiment_score'] = [textfeatures.score_sentiment(v)['compound'] for v in tweets.text_clean.values.tolist()]
 
 textfeatures.score_sentiment(tweets['text_clean'][1])
 
